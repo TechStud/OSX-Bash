@@ -1,0 +1,18 @@
+#!/bin/bash
+
+####################
+# OSX Bash Script
+####################
+## This script will gather your Ethernet & WiFi IP's and their related DNS Entries 
+##   as well as your External IP (Internet Access is required)
+##
+
+echo -e "\n-=[My Connection Details]=-\n" 
+
+intip0=$(ipconfig getifaddr en0)
+dnsip0=$(networksetup -getdnsservers Wi-Fi | perl -pe 's/\n/\n              : /g' | grep -vi ": $")
+intip1=$(ipconfig getifaddr en1)
+dnsip1=$(networksetup -getdnsservers Wi-Fi | perl -pe 's/\n/\n              : /g' | grep -vi ": $")
+extip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+
+echo -e "[INT]  ETH  IP: $intip0\n[INT]  ETH DNS: $dnsip0\n[INT] WiFi  IP: $intip1\n[INT] WiFi DNS: $dnsip1\n[EXT]   ISP IP: $extip\n"
